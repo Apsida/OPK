@@ -38,6 +38,7 @@ if lenght != 0:
 else:
     print(quickSort(array, 0, lenght))
 
+print("ZZZZZZZ GOOOOOOL GOIDA")
 
 #tests
 assert(quickSort([], 0, 0) == [])
