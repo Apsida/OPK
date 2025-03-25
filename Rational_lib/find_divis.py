@@ -1,8 +1,8 @@
-def nod(a,b): #оптимизировать поиск НОДа
+def nod(a,b):
     if a == 0:
         return b
-    g = nod(b%a, a)
-    return g
+    div = nod(b%a, a)
+    return div
 
 def nok(a,b):
     if a > b:

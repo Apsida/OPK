@@ -1,4 +1,4 @@
-def powering(val, pow):
+def exponen(val, pow):
     res, v, c = 1, val, pow
     if c &1:
         res = v
@@ -11,4 +11,4 @@ def powering(val, pow):
     return res
 
 if __name__ == "__main__":
-    print(powering(2,10))
+    print(exponen(2,10))

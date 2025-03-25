@@ -1,5 +1,5 @@
-import deliteli
-from force_power import powering
+import find_divis
+from exponentiation import exponen
 
 class Rational:
     def __init__(self, numer: int, denom: int):
@@ -8,7 +8,7 @@ class Rational:
     def __copy__(self):
         return type(self)(self.numer, self.denom)
 
-def creat(number, denom):
+def create(number, denom):
     if denom == 0:
         return "inf"
     r = Rational(number, denom)
@@ -20,7 +20,7 @@ def add(n, d):
     if a.denom == b.denom:
         a.numer += b.numer
     else:
-        min_delit = deliteli.nok(a.denom, b.denom)
+        min_delit = find_divis.nok(a.denom, b.denom)
         a.numer *= min_delit // a.denom
         b.numer *= min_delit// b.denom
         a.denom = min_delit
@@ -33,7 +33,7 @@ def sub(n, d):
     if a.denom == b.denom:
         a.numer -= b.numer
     else:
-        min_delit = deliteli.nok(a.denom, b.denom)
+        min_delit = find_divis.nok(a.denom, b.denom)
         a.numer *= min_delit // a.denom
         b.numer *= min_delit // b.denom
         a.denom = min_delit
@@ -60,12 +60,12 @@ def div(n,d):
 def power(n, power):
     r = n.__copy__()
     if power > 0:
-        r.numer = powering(r.numer, power)
-        r.denom = powering(r.denom, power)
+        r.numer = exponen(r.numer, power)
+        r.denom = exponen(r.denom, power)
     elif power < 0:
         r.numer, r.denom = r.denom, r.numer
-        r.numer = powering(r.numer, abs(power))
-        r.denom = powering(r.denom, abs(power))
+        r.numer = exponen(r.numer, abs(power))
+        r.denom = exponen(r.denom, abs(power))
     else:
         r.numer = 1
         r.denom = 1
@@ -80,11 +80,11 @@ def simplify(r):
 def _to_int(r):
     if r.numer == 0:
         return 0
-    max_delit = deliteli.nod(r.numer, r.denom)
+    max_delit = find_divis.nod(r.numer, r.denom)
     return r.numer // max_delit
 
 def _to_float(r):
-    max_delit = deliteli.nod(r.numer, r.denom)
+    max_delit = find_divis.nod(r.numer, r.denom)
     r.denom /= max_delit
     r.numer /= max_delit
     r.int_part = 0
@@ -95,28 +95,18 @@ def _to_float(r):
     return a
 
 def to_str(r):
-    max_delit = deliteli.nod(r.numer, r.denom)
+    max_delit = find_divis.nod(r.numer, r.denom)
     answer = str(r.numer//max_delit) + "/" + str(r.denom//max_delit)
     return answer
 
 def output(answer):
     print("Answer is:", to_str(answer), "or", simplify(result))
 
-def input_drob():
+def input_ration():
     a, b = map(int, input().split())
-    drob = creat(a,b)
+    drob = create(a,b)
     return drob
 
 if __name__ == "__main__":
-    drob = input_drob()
-    adder = input_drob()
-    result = add(drob, adder)
-    output(result)
-    result = sub(drob, adder)
-    output(result)
-    result = mul(drob, adder)
-    output(result)
-    result = div(drob, adder)
-    output(result)
-    result = power(drob, -2)
-    output(result)
+    drob = create(1,0)
+    print(drob.denom)

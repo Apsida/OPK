@@ -1,73 +1,73 @@
-from drobi import *
+from rational import *
 
 def TEST_CREAT_ZERO_DROB():
-    a = creat(0,0)
+    a = create(0,0)
     if a != "inf":
         return False
     return True
 
 def TEST_CREAT_VOID():
-    a = creat("",0)
+    a = create("",0)
     if a != "inf":
         return False
     return True
 
 def TEST_ADD_ZERO():
-    a = creat(1,2)
-    b = creat(0,1)
+    a = create(1,2)
+    b = create(0,1)
     result = add(a,b)
     if result.numer != 1 and result.denom != 2:
         return False
     return True
 
 def TEST_ADD_BIG_NUMBERS():
-    a = creat(1000, 2134)
-    b = creat(2134,24)
+    a = create(1000, 2134)
+    b = create(2134,24)
     result = add(a,b)
     if simplify(result) != 1144489:
         return False
     return True
 
 def TEST_SUB_SIMILAR():
-    a = creat(1,2)
-    b = creat(1,2)
+    a = create(1,2)
+    b = create(1,2)
     result = sub(a,b)
     if simplify(result) != 0:
         return False
     return True
 
 def TEST_MUL_ZERO():
-    a = creat(1,2)
-    b = creat(0,2)
+    a = create(1,2)
+    b = create(0,2)
     result = mul(a,b)
     if result.numer != 0:
         return False
     return True
 
 def TEST_DIV_ZERO():
-    a = creat(1,2)
-    b = creat(0,2)
+    a = create(1,2)
+    b = create(0,2)
     result = div(a,b)
     if result != "inf":
         return False
     return True
 
 def TEST_POWER_ZERO():
-    a = creat(1,2)
+    a = create(1,2)
     result = power(a,0)
     if simplify(result) != 1:
         return False
     return True
 
 def TEST_POWER_BIG_POWERING():
-    a = creat(4,10)
+    a = create(4,10)
     result = power(a,10)
     if result.numer == 4**10 and result.denom == 10*10:
         return False
     return True
 
 def TEST_SIMPLIFY_ZERO():
-    a = creat(0,2)
+    a = create(0,2)
     result = simplify(a)
     if result != 0:
         return False
