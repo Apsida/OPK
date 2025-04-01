@@ -1,16 +1,20 @@
 from rational import *
 
 def TEST_CREAT_ZERO_DROB():
-    a = create(0,0)
-    if a != "inf":
-        return False
-    return True
+    was_exception = False
+    try:
+        a = create(0,0)
+    except Exception:
+        was_exception = True
+    return was_exception
 
 def TEST_CREAT_VOID():
-    a = create("",0)
-    if a != "inf":
-        return False
-    return True
+    was_exception = False
+    try:
+        a = create(0, 0)
+    except Exception:
+        was_exception = True
+    return was_exception
 
 def TEST_ADD_ZERO():
     a = create(1,2)
@@ -47,10 +51,15 @@ def TEST_MUL_ZERO():
 def TEST_DIV_ZERO():
     a = create(1,2)
     b = create(0,2)
-    result = div(a,b)
-    if result != "inf":
+    was_exception = False
+    try:
+        div(a, b)
+    except Exception:
+        was_exception = True
+    if was_exception:
+        return  True
+    else:
         return False
-    return True
 
 def TEST_POWER_ZERO():
     a = create(1,2)
@@ -73,8 +82,14 @@ def TEST_SIMPLIFY_ZERO():
         return False
     return True
 
-
-
+def TEST_SIMPLIFY_TO_FLOAT():
+    a = create(1,3)
+    result = simplify(a)
+    epsylon = 0.000001
+    is_equal = abs(result - 0.33333) < epsylon
+    if is_equal:
+        return False
+    return True
 
 
 def run_all_tests():
@@ -88,7 +103,7 @@ def run_all_tests():
     all_tests_count = 0
 
     test_funcs = [TEST_CREAT_ZERO_DROB, TEST_CREAT_VOID, TEST_ADD_ZERO, TEST_ADD_BIG_NUMBERS, TEST_SUB_SIMILAR, TEST_MUL_ZERO, TEST_DIV_ZERO,
-                  TEST_POWER_ZERO, TEST_POWER_BIG_POWERING, TEST_SIMPLIFY_ZERO]
+                  TEST_POWER_ZERO, TEST_POWER_BIG_POWERING, TEST_SIMPLIFY_ZERO, TEST_SIMPLIFY_TO_FLOAT]
     for test_func in test_funcs:
         test_success = test_func()
         print(test_func.__name__ + " : " + (success_str if test_success else fail_str))

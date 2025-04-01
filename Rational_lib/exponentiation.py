@@ -1,9 +1,9 @@
 def exponen(val, pow):
     res, v, c = 1, val, pow
-    if c &1:
+    if c & 1:
         res = v
     c >>= 1
-    while c>0:
+    while c > 0:
         v = v * v
         if c&1:
             res = v*res

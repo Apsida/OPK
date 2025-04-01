@@ -10,7 +10,7 @@ class Rational:
 
 def create(number, denom):
     if denom == 0:
-        return "inf"
+        raise ZeroDivisionError
     r = Rational(number, denom)
     return r
 
@@ -48,14 +48,13 @@ def mul(n, d):
     return a
 
 def div(n,d):
+    if d.numer == 0:
+        raise ZeroDivisionError
     a = n.__copy__()
     b = d.__copy__()
     a.numer *= b.denom
     a.denom *= b.numer
-    if a.denom == 0:
-        return "inf"
     return a
-
 
 def power(n, power):
     r = n.__copy__()
@@ -91,8 +90,14 @@ def _to_float(r):
     if r.numer > r.denom:
         r.int_part = max_delit
         r.numer = r.numer - (r.denom * max_delit)
-    a = r.int_part + round(r.numer/r.denom, 2)
+    a = r.int_part + r.numer/r.denom
     return a
+
+a = 0.1
+b = 0.10000000000001
+epsilon = 0.0000001
+are_equal = abs(a - b) < epsilon
+
 
 def to_str(r):
     max_delit = find_divis.nod(r.numer, r.denom)
@@ -100,7 +105,7 @@ def to_str(r):
     return answer
 
 def output(answer):
-    print("Answer is:", to_str(answer), "or", simplify(result))
+    print("Answer is:", to_str(answer), "or", simplify(answer))
 
 def input_ration():
     a, b = map(int, input().split())
@@ -108,5 +113,5 @@ def input_ration():
     return drob
 
 if __name__ == "__main__":
-    drob = create(1,0)
-    print(drob.denom)
+    drob = create(1,3)
+    print(simplify(drob))
