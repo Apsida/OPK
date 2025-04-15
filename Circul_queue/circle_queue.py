@@ -15,7 +15,7 @@ class circ_queue():
             return -1
 
     def ent_queue(self, item: int):
-        if self.front == self.max_size - 1:
+        if self.tail == self.max_size - 1:
             return -1
         if self.is_empty():
             self.front = 0
@@ -30,7 +30,7 @@ class circ_queue():
         return 0
 
     def del_queue(self):
-        item = -1
+        item = None
         if not self.is_empty():
             item = self.queue_array[self.front]
             if self.front == self.tail:
@@ -38,11 +38,10 @@ class circ_queue():
                 self.tail = -1
             else:
                 self.front = (self.front + 1) % self.max_size
-
         return item
 
 
 if __name__ == "__main__":
-    qu = circ_queue(0)
+    qu = circ_queue(1)
+    qu.ent_queue(76)
     print(qu.head())
-
