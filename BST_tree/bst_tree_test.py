@@ -1,7 +1,16 @@
 from BST_tree import *
+from random import randint
+
+def TEST_SIZE_CORRECT():
+    r = Tree(6)
+    r = insert(r, 5)
+    r = insert(r, 7)
+    r = insert(r, 1)
+    r = insert(r, 9)
+    return size(r) == 5
 
 def TEST_DEL_EXIST():
-    r = Node(51)
+    r = Tree(51)
     for i in range(11, 100, 10):
         if i != 51:
             r = insert(r, i)
@@ -9,7 +18,7 @@ def TEST_DEL_EXIST():
     return not(search(r, 21))
 
 def TEST_DEL_NOT_EXIST():
-    r = Node(51)
+    r = Tree(51)
     was_exept = False
     for i in range(11, 100, 10):
         if i != 51:
@@ -20,34 +29,35 @@ def TEST_DEL_NOT_EXIST():
         was_exept = True
     return was_exept
 
-def TEST_SEARCH_EXIST_NODE():
-    r = Node(5)
+def TEST_SEARCH_EXIST_KNOT():
+    r = Tree(5)
     for i in range(0,10,2):
         r = insert(r, i)
     return search(r,8)
 
-def TEST_SEARCH_NOT_EXIST_NODE():
-    r = Node(5)
+def TEST_SEARCH_NOT_EXIST_KNOT():
+    r = Tree(5)
     for i in range(0, 10, 2):
         r = insert(r, i)
     return not(search(r, 7))
 
 def _check(root):
+    is_corr = True
     if root is None:
         return True
     if (not(root.left) is None and not(root.right is None)
         and root.left.val <= root.val <= root.right.val):
         return True
-    _check(root.right)
-    _check(root.left)
-    return False
+    is_corr = _check(root.right)
+    is_corr = _check(root.left)
+    return is_corr
 
-def TEST_BST_TREE_RIGHT_BIGGER():
-    r = Node(5)
+def TEST_BST_TREE_CHECK_IS():
+    r = Tree(5)
     for i in range(10, 0, -2):
-        r = insert(r, i)
+        r = insert(r, randint(-10,10))
+    print_inorder(r)
     return _check(r)
-
 
 def run_all_tests():
     red_color_add = '\033[91m'
@@ -59,8 +69,8 @@ def run_all_tests():
     passed_tests_count = 0
     all_tests_count = 0
 
-    test_funcs = [TEST_DEL_EXIST, TEST_DEL_NOT_EXIST, TEST_SEARCH_EXIST_NODE, TEST_SEARCH_NOT_EXIST_NODE,
-                  TEST_BST_TREE_RIGHT_BIGGER]
+    test_funcs = [TEST_SIZE_CORRECT, TEST_DEL_EXIST, TEST_DEL_NOT_EXIST, TEST_SEARCH_EXIST_KNOT, TEST_SEARCH_NOT_EXIST_KNOT,
+                  TEST_BST_TREE_CHECK_IS]
     for test_func in test_funcs:
         test_success = test_func()
         print(test_func.__name__ + " : " + (success_str if test_success else fail_str))

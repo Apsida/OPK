@@ -1,4 +1,4 @@
-class Node:
+class Tree:
     def __init__(self, key: int):
         self.val = key
         self.left = None
@@ -11,9 +11,17 @@ def search(root, key):
         return search(root.right, key)
     return search(root.left, key)
 
+def size(root):
+    a = 0
+    if root:
+        a += 1
+        a += size(root.left)
+        a += size(root.right)
+    return a
+
 def insert(root, key):
     if root is None:
-        return Node(key)
+        return Tree(key)
     if root.val == key:
         return root
     if root.val < key:
@@ -49,8 +57,12 @@ def print_inorder(root):
         print_inorder(root.right)
 
 if __name__ == "__main__":
-    r = Node(51)
-    for i in range(11,100,10):
-        if i != 51:
-            r = insert(r, i)
-    r = del_knot(r, 22)
+    r = Tree(51)
+    r = insert(r,32)
+    r = insert(r, 61)
+    r = insert(r, 78)
+    r = insert(r, 21)
+    r = insert(r, 1)
+    r = insert(r, 1000)
+
+    print(size(r))
