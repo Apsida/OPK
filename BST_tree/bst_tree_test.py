@@ -42,14 +42,14 @@ def TEST_SEARCH_NOT_EXIST_KNOT():
     return not(search(r, 7))
 
 def _check(root):
-    is_corr = True
+    is_corr = []
     if root is None:
         return True
     if (not(root.left) is None and not(root.right is None)
         and root.left.val <= root.val <= root.right.val):
         return True
-    is_corr = _check(root.right)
-    is_corr = _check(root.left)
+    is_corr.append(_check(root.right))
+    is_corr.append(_check(root.left))
     return is_corr
 
 def TEST_BST_TREE_CHECK_IS():
@@ -57,7 +57,7 @@ def TEST_BST_TREE_CHECK_IS():
     for i in range(10, 0, -2):
         r = insert(r, randint(-10,10))
     print_inorder(r)
-    return _check(r)
+    return False in _check(r)
 
 def run_all_tests():
     red_color_add = '\033[91m'
