@@ -4,7 +4,7 @@ from random import randint
 def TEST_SET_FUNC():
     ht = Hash_Table(5, jenkins_hash, 0)
     ht.ht_set("Karl", "Klornet")
-    return ("Karl", "Klornet") in ht.table
+    return ht.ht_has("Karl") == 1 and  ht.ht_get("Karl") == "Klornet"
 
 def TEST_FIND_EXIST():
     ht = Hash_Table(5, jenkins_hash, 0)
@@ -25,7 +25,7 @@ def TEST_DESTROY_FUNC():
 def TEST_GET_EXIST():
     ht = Hash_Table(5, jenkins_hash, 0)
     ht.ht_set("Karl", "Klornet")
-    return ht.ht_get("Karl") == ("Karl","Klornet")
+    return ht.ht_get("Karl") == "Klornet"
 
 def TEST_GET_NOT_EXIST():
     ht = Hash_Table(5, jenkins_hash, 0)
@@ -58,7 +58,7 @@ def TEST_RESIZE():
     ht.ht_set("Karl", "Karal")
     ht.ht_set("Klara", "Klornet")
     ht.ht_resize(10)
-    return ht.size_t == 10 and ht.ht_has("Klara") and ht.ht_has("Karl")
+    return ht.size_t == 10 and ht.ht_has("Klara") == 1 and ht.ht_has("Karl") == 1
 
 
 def run_all_tests():
