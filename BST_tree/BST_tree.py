@@ -1,16 +1,107 @@
-class Tree:
-    def __init__(self, key: int):
-        self.val = key
+class Node:
+    def __init__(self, data):
+        self.data = data
         self.left = None
         self.right = None
 
-def search(root, key):
-    if root is None or root.val == key:
-        return root
-    if root.val < key:
-        return search(root.right, key)
-    return search(root.left, key)
+class Tree:
+    def __init__(self, cmp_func):
+        self.root = None
+        self.cmp_func = cmp_func
 
+    def min_data_node(self, root):
+        current = root
+        while (current.left is not None):
+            current = current.left
+        return current
+
+    def _find_parent(self, value):
+        if self.root is None:
+            return None
+        current_node = self.root
+        while current_node is not None:
+            if self.cmp_func(value, current_node.right.data) == 0 or self.cmp_func(value, current_node.left.data) == 0  :
+                return current_node
+            elif self.cmp_func(value, current_node.data) == 1:
+                current_node = current_node.left
+            else:
+                current_node = current_node.right
+        return None
+
+    def insert(self, value):
+        new_node = Node(value)
+        if self.root is None:
+            self.root = new_node
+            return
+        current_node = self.root
+        while current_node is not None:
+            if self.cmp_func(value, current_node.data) == 1:
+                if current_node.left is None:
+                    current_node.left = new_node
+                    return
+                else:
+                    current_node = current_node.left
+            else:
+                if current_node.right is None:
+                    current_node.right = new_node
+                    return
+                else:
+                    current_node = current_node.right
+
+    def del_knot(self, value):
+        node_to_delete = self.search(value)
+        if node_to_delete is None:
+            raise Exception("notExist")
+        if node_to_delete.left is None and node_to_delete.right is None:
+            if node_to_delete == self.root:
+                self.root = None
+                return
+            parent = self._find_parent(value)
+            if parent.left == node_to_delete:
+                parent.left = None
+            else:
+                parent.right = None
+            return
+
+        if node_to_delete.left is None or node_to_delete.right is None:
+            if node_to_delete == self.root:
+                if node_to_delete.left is not None:
+                    self.root = node_to_delete.left
+                else:
+                    self.root = node_to_delete.right
+                return
+            parent = self._find_parent(value)
+            if node_to_delete.left is not None:
+                if parent.left == node_to_delete:
+                    parent.left = node_to_delete.left
+                else:
+                    parent.right = node_to_delete.left
+                return
+            else:
+                if parent.left == node_to_delete:
+                    parent.left = node_to_delete.right
+                else:
+                    parent.right = node_to_delete.right
+                return
+
+        if node_to_delete.left is not None and node_to_delete.right is not None:
+            temp = self.min_data_node(node_to_delete.right)
+            node_to_delete.right = self.del_knot(node_to_delete.right.data)
+            return
+
+    def search(self, value):
+        if self.root is None:
+            return None
+        current_node = self.root
+        while current_node is not None:
+            if self.cmp_func(value, current_node.data) == 0 :
+                return current_node
+            elif self.cmp_func(value, current_node.data) == 1:
+                current_node = current_node.left
+            else:
+                current_node = current_node.right
+        return None
+    
 def size(root):
     a = 0
     if root:
@@ -19,50 +110,31 @@ def size(root):
         a += size(root.right)
     return a
 
-def insert(root, key):
-    if root is None:
-        return Tree(key)
-    if root.val == key:
-        return root
-    if root.val < key:
-        root.right = insert(root.right, key)
-    else:
-        root.left = insert(root.left, key)
-    return root
-
-def del_knot(root, key):
-    if root is None:
-        raise NameError("DeleteNoneErr")
-    if root.val > key:
-        root.left = del_knot(root.left, key)
-    elif root.val < key:
-        root.right = del_knot(root.right, key)
-    else:
-        if root.right == None and root.left == None:
-            root.val = None
-            return root
-        elif root.left == None:
-            return root.right
-        elif root.right == None:
-            return root.left
-        else:
-            root.val = max(root.left.val, root.right.val)
-            root.right = del_knot(root.right, root.val)
-    return root
-
 def print_inorder(root):
     if root:
         print_inorder(root.left)
-        print(root.val, end=" ")
+        print(root.data, end=" ")
         print_inorder(root.right)
 
-if __name__ == "__main__":
-    r = Tree(51)
-    r = insert(r,32)
-    r = insert(r, 61)
-    r = insert(r, 78)
-    r = insert(r, 21)
-    r = insert(r, 1)
-    r = insert(r, 1000)
+def creat (cmp_func):
+    tree = Tree(cmp_func)
+    return tree
 
-    print(size(r))
+def test_cmp(a,b):
+    if a > b:
+        return -1
+    elif a == b:
+        return 0
+    else: return 1
+
+if __name__ == "__main__":
+    tr = creat(test_cmp)
+    tr.insert(10)
+    tr.insert(2)
+    tr.insert(15)
+    tr.insert(12)
+    tr.insert(114)
+    tr.insert(1)
+    print_inorder(tr.root)
+    
+    

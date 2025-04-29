@@ -12,7 +12,7 @@ class Hash_Table:
 
     def ht_set(self, key, data):
         hash_key = self.Hash_Func(key) % self.size_t
-        self.table[hash_key] = data
+        self.table[hash_key] = (key, data)
 
     def ht_get(self, key):
         hash_key = self.Hash_Func(key) % self.size_t
@@ -35,16 +35,22 @@ class Hash_Table:
         self.table[hash_key] = None
 
     def ht_traverse(self, func):
-
+        for i in self.table:
+            print(i, func(i))
 
     def ht_resize(self, new_size):
-        return 0
+        new_table = [None]*new_size
+        for i in self.table:
+            if i != None:
+                hash_key = self.Hash_Func(i[0]) % new_size
+                new_table[hash_key] = i
+        self.table = new_table
+        self.size_t = new_size
+
 
 if __name__ == "__main__":
-    ht = Hash_Table(3, jenkins_hash, 0)
+    ht = Hash_Table(5, jenkins_hash, 0)
     ht.ht_set("Peter", "175")
     ht.ht_set("Polina", "165")
     print(ht.ht_get("Peter"))
-    print(ht.ht_has("Polina"))
-    ht.ht_delete("Polina")
     print(ht.ht_has("Polina"))
