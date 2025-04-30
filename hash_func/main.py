@@ -1,4 +1,5 @@
 from hash_func import *
+
 class Hash_Table:
     def __init__(self, size, hash_func, dtor):
         self.size_t = size
@@ -20,8 +21,8 @@ class Hash_Table:
     def ht_get(self, key):
         hash_key = self.Hash_Func(key) % self.size_t
         elem = self.table[hash_key]
-        for i, kv in enumerate(elem):
-            k, v = kv
+        for i, key_val in enumerate(elem):
+            k, v = key_val
             if key == k:
                 return v
         raise Exception("NotExist")
@@ -31,8 +32,8 @@ class Hash_Table:
         elem = self.table[hash_key]
         if elem == [] or elem[0] == None:
             return 0
-        for i, kv in enumerate(elem):
-            k, v = kv
+        for i, key_val in enumerate(elem):
+            k, v = key_val
             if key == k:
                 return 1
         return 0
@@ -48,18 +49,20 @@ class Hash_Table:
 
     def ht_traverse(self, func):
         for i in self.table:
-            print(i, func(i))
+            if i[0] != None:
+                for j in i:
+                    func(j)
 
     def ht_resize(self, new_size):
         new_table = [[None]]*new_size
         for i in self.table:
             if i[0] != None:
-                for kv in i:
-                    hash_key = self.Hash_Func(kv[0]) % new_size
+                for key_val in i:
+                    hash_key = self.Hash_Func(key_val[0]) % new_size
                     if new_table[hash_key][0] == None:
-                        new_table[hash_key] = [kv]
+                        new_table[hash_key] = [key_val]
                     else:
-                        new_table[hash_key].append([kv])
+                        new_table[hash_key].append([key_val])
         self.table = new_table
         self.size_t = new_size
 
